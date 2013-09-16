@@ -1,26 +1,24 @@
 from medlineLinkExtractor import MedlineLinkExtractor
 from medlineDataExtractor import MedlineDataExtractor
+import workerpool
 
 mLE = MedlineLinkExtractor()
 mLE.readXml("../etc/mplus_topics_2013-09-14.xml")
-
 topics = mLE.getTopics()
 articles = mLE.getArticles()
-countTopics = len(topics)
-countArticles = len(articles)
+count = 0
+        
+pool = workerpool.WorkerPool(size=100)
+for url in articles:
+    count+= 1
+    job = MedlineDataExtractor(url, count, 1)
+    pool.put(job)
 
-mDE = MedlineDataExtractor()
-
-for topic in topics:
-    mDE.extractTopicData(topic)
-    countTopics -= 1
-    print str(countTopics) + ' topics left'
+for url in topics:
+    count += 1
+    job = MedlineDataExtractor(url,count, 0)
+    pool.put(job)
     
-for article in articles:
-    mDE.extractArticleData(article)
-    countArticles -= 1
-    print str(countArticles) + ' articles left'
-    
-mDE.closeIndexFile()
-
+pool.shutdown()
+pool.wait()
 
