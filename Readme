@@ -3,7 +3,7 @@ Install the following packages:
         sudo apt-get install python-setuptools
     
     b. workpool package for multithreading
-        sudo etc/<workpool dir>/setup.py install
+        sudo python etc/<workpool dir>/setup.py install
     
     c. BeautifulSoup for parsing
         sudo apt-get install python-bs4
