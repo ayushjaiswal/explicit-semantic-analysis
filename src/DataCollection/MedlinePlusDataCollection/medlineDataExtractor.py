@@ -9,7 +9,7 @@ class MedlineDataExtractor(workerpool.Job):
     def __init__(self, url, count, isArticle=False):
         self.__url = url
         self.__count = count
-        self.__path = "a/" #"../../../data/Medline/"
+        self.__path = "../../../data/Medline/"
         self.__isArticle = isArticle
 
     def __fetchHtml(self):
