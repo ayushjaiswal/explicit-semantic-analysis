@@ -77,9 +77,6 @@ class MedlineDataExtractor(workerpool.Job):
 
     def run(self):
         soup = BeautifulSoup(self.__fetchHtml())
-        link = self.__url[::-1]
-        idx1 = link.find('/')
-        lenUrl = len(link)
         if self.__isArticle:
             self.__saveArticle(soup)
         else:
