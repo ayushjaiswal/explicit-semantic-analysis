@@ -41,7 +41,7 @@ class MedlineDataExtractor(workerpool.Job):
             if not alsoKnown is None:
                 text = text + alsoKnown + '\n\n'
             text = text + bodyText
-            text = text + '\n\n'+'Link of medline: '+self.__url
+            text = text + '\n\n' + 'Link of medline: ' + self.__url
             with open(self.__topicPath + fileName,'w') as f:
                 f.write(text.encode('utf-8'))
             print 'Downloaded topic : %s'%fileName
@@ -68,11 +68,11 @@ class MedlineDataExtractor(workerpool.Job):
                 else:
                     text = text + bodyContents.text
                 bodyContents = bodyContents.nextSibling
-            text = text + '\n\n'+'Link of medline: '+self.__url
+            text = text + '\n\n'+'Link of medline: ' + self.__url
             text = text.encode('utf-8')
             with open(self.__articlePath + fileName, 'w') as f:
                 f.write(text)
-            print 'Downloaded article : %s'%fileName
+            print 'Downloaded article :', fileName
                                     
 
     def run(self):

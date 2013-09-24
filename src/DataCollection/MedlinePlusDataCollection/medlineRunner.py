@@ -2,7 +2,7 @@ from medlineLinkExtractor import MedlineLinkExtractor
 from medlineDataExtractor import MedlineDataExtractor
 import workerpool
 
-#extract topics and articles url
+# Extract topics and articles url
 mLE = MedlineLinkExtractor()
 mLE.readXml("../../../etc/mplus_topics_2013-09-14.xml")
 topics = mLE.getTopics()
@@ -10,7 +10,7 @@ articles = mLE.getArticles()
 topicCount = 0
 articleCount = 0
         
-#Downloader
+# Downloader
 pool = workerpool.WorkerPool(size=20)
 for url in topics:
     topicCount = topicCount + 1
