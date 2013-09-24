@@ -1,0 +1,12 @@
+Install the following packages:
+    a. SetupTools package:
+        sudo apt-get install python-setuptools
+    
+    b. workpool package for multithreading
+        sudo python etc/<workpool dir>/setup.py install
+    
+    c. BeautifulSoup for parsing
+        sudo apt-get install python-bs4
+    
+    d. NLTk
+        http://nltk.org/install.html
