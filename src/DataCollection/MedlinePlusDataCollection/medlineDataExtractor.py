@@ -7,23 +7,18 @@ from bs4 import BeautifulSoup
 class MedlineDataExtractor(workerpool.Job):
     """Fetches the data from the given link and save"""
     
-    def __init__(self, url, isArticle=False):
+    def __init__(self, url, savePath, isArticle=False):
         self.__url = url
-        self.__topicPath = "../../../data/Medline/Topics/"
-        self.__articlePath = "../../../data/Medline/Articles/"
+        self.__savePath = savePath
         self.__isArticle = isArticle
-        if not os.path.exists(self.__articlePath):
-            os.makedirs(self.__articlePath)
-        if not os.path.exists(self.__topicPath):
-            os.makedirs(self.__topicPath)
-        
+        if not os.path.exists(self.__savePath):
+            os.makedirs(self.__savePath)
 
     def __fetchHtml(self):
         response = urllib2.urlopen(self.__url)
         html_doc = response.read()
         response.close()
         return html_doc
-        
 
     def __saveTopic(self, soupObj):
         """Fetches and saves data from different topics"""
@@ -37,16 +32,16 @@ class MedlineDataExtractor(workerpool.Job):
             fileName = re.sub('_+', ' ', fileName)
             fileName = re.sub('/+', ' ', fileName)
             bodyText = body.text
-            text = "Title: " + titleText + '\n\n'
+            text = '<?xml version="1.0" encoding="UTF-8"?>\n<topic>\n'
+            text = text + '<title>' + titleText + '</title>\n'
             if not alsoKnown is None:
-                text = text + alsoKnown + '\n\n'
-            text = text + bodyText
-            text = text + '\n\n' + 'Link of medline: ' + self.__url
-            with open(self.__topicPath + fileName,'w') as f:
+                text = text + '<alsoKnown>'+ alsoKnown + '</alsoKnown>\n'
+            text = text + '<body>' + bodyText + '</body>\n'
+            text = text + '<link>' + self.__url + '</link>\n</topic>'
+            with open(self.__savePath + fileName,'w') as f:
                 f.write(text.encode('utf-8'))
-            print 'Downloaded topic : %s'%fileName
+            print 'Downloaded topic :', fileName
     
-
     def __saveArticle(self, soupObj):
         """Fetches and saves data from different articles"""
         
@@ -59,22 +54,21 @@ class MedlineDataExtractor(workerpool.Job):
             fileName = re.sub('/+', ' ',fileName)
             fileName = re.sub('_+', ' ',fileName)
             fileName = re.sub(' +', ' ',fileName)
-            text = 'Title: ' + titleText + '\n\n'
+            text = '<?xml version="1.0" encoding="UTF-8"?>\n<article>\n'
+            text = text + '<title>' + titleText + '</title>\n'
+            text = text + "<body>"
             while not bodyContents is None:
                 if bodyContents.text == 'References':
                     break
-                if bodyContents.name == 'h2':
-                    text = text + '\n\n' + 'Subtopic: ' + bodyContents.text + '\n'
-                else:
-                    text = text + bodyContents.text
+                text = text + bodyContents.text
                 bodyContents = bodyContents.nextSibling
-            text = text + '\n\n'+'Link of medline: ' + self.__url
+            text = text + '</body>\n'
+            text = text + '<link>' + self.__url + '</link>\n</article>'
             text = text.encode('utf-8')
-            with open(self.__articlePath + fileName, 'w') as f:
+            with open(self.__savePath + fileName, 'w') as f:
                 f.write(text)
             print 'Downloaded article :', fileName
                                     
-
     def run(self):
         soup = BeautifulSoup(self.__fetchHtml())
         if self.__isArticle:

@@ -4,7 +4,7 @@
 
 import nltk
 
-class Preprocessor():
+class Preprocessor:
     """Preprocesses the raw text for further operations.
 
     Allows the option to filter stop words.
