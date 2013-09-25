@@ -3,7 +3,7 @@ from medlineDataExtractor import MedlineDataExtractor
 import workerpool
 
 topicsXML_path = "../../../etc/mplus_topics_2013-09-14.xml"
-dataPath = "../../../data/Medline/"
+dataPath = "../../../data/raw/Medline/"
 topicFolder = 'Topics'
 articleFolder = 'Articles'
 
@@ -28,12 +28,12 @@ class MedlineRunner:
                 
         # Downloader
         pool = workerpool.WorkerPool(size=20)
-        for url in topics[:3]:
+        for url in topics:
             topicCount = topicCount + 1
             job = MedlineDataExtractor(url, self.__topicPath, isArticle=False)
             pool.put(job)
             
-        for url in articles[:3]:
+        for url in articles:
             articleCount = articleCount + 1
             job = MedlineDataExtractor(url, self.__articlePath, isArticle=True)
             pool.put(job)
