@@ -32,7 +32,6 @@ class MedlineIndexer:
             with open(self.__indexFilePath + 'TopicIndex', 'w') as f:
                 for fileName in topicFiles:
                     f.write(self.__getRow(fileName, self.__topicFolder))
-
         else:
             print "Topics folder doesn't exist."
 
