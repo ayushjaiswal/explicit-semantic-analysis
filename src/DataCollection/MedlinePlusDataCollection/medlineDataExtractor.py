@@ -20,6 +20,34 @@ class MedlineDataExtractor(workerpool.Job):
         response.close()
         return html_doc
 
+    def __getTags(self, name):
+        """Returns opening and closing tags given tag name."""
+
+        openTag = '<' + name + '>'
+        closeTag = '</' + name + '>'
+        return openTag, closeTag
+
+    def __getFileName(self, title):
+        """Returns file name based on title."""
+
+        fileName = title.encode('utf-8')
+        fileName = re.sub(' +', ' ', fileName)
+        fileName = re.sub('_+', ' ', fileName)
+        fileName = re.sub('/+', ' ', fileName)
+        return fileName
+
+    def __textToXML(self, dictionary, root):
+        """Convert raw text to XML given dictionary."""
+
+        contents = '<?xml version="1.0" encoding="UTF-8"?>\n'
+        openRootTag, closeRootTag = self.__getTags(root)
+        contents = contents + openRootTag + '\n'
+        for item in dictionary.keys():
+            openTag, closeTag = self.__getTags(item)
+            contents = contents + openTag + dictionary[item] + closeTag + '\n'
+        contents = contents + closeRootTag
+        return contents
+
     def __saveTopic(self, soupObj):
         """Fetches and saves data from different topics"""
         
@@ -27,17 +55,16 @@ class MedlineDataExtractor(workerpool.Job):
         alsoKnown = soupObj.find("div", {"id":"ht_alsoknown"})
         body = soupObj.find("div", {"id":"tpsummary"})
         if not title is None and not body is None:
-            titleText = title.text.strip().encode('utf-8')
-            fileName = re.sub(' +', ' ', titleText)
-            fileName = re.sub('_+', ' ', fileName)
-            fileName = re.sub('/+', ' ', fileName)
+            titleText = title.text.strip()
+            fileName = self.__getFileName(titleText)
             bodyText = body.text
-            text = '<?xml version="1.0" encoding="UTF-8"?>\n<topic>\n'
-            text = text + '<title>' + titleText + '</title>\n'
+            fileContents = {}
+            fileContents['title'] = titleText
             if not alsoKnown is None:
-                text = text + '<alsoKnown>'+ alsoKnown + '</alsoKnown>\n'
-            text = text + '<body>' + bodyText + '</body>\n'
-            text = text + '<link>' + self.__url + '</link>\n</topic>'
+                fileContents['alsoKnown'] = alsoKnown
+            fileContents['body'] = bodyText
+            fileContents['link'] = self.__url
+            text = self.__textToXML(fileContents, 'topic')
             with open(self.__savePath + fileName,'w') as f:
                 f.write(text.encode('utf-8'))
             print 'Downloaded topic :', fileName
@@ -50,23 +77,20 @@ class MedlineDataExtractor(workerpool.Job):
         if not title is None and not body is None:
             titleText = title.text.strip()
             bodyContents = body.div.div
-            fileName = titleText.encode('utf-8')
-            fileName = re.sub('/+', ' ',fileName)
-            fileName = re.sub('_+', ' ',fileName)
-            fileName = re.sub(' +', ' ',fileName)
-            text = '<?xml version="1.0" encoding="UTF-8"?>\n<article>\n'
-            text = text + '<title>' + titleText + '</title>\n'
-            text = text + "<body>"
+            fileName = self.__getFileName(titleText)
+            fileContents = {}
+            fileContents['title'] = titleText
+            bodyText = ''
             while not bodyContents is None:
                 if bodyContents.text == 'References':
                     break
-                text = text + bodyContents.text
+                bodyText = bodyText + bodyContents.text
                 bodyContents = bodyContents.nextSibling
-            text = text + '</body>\n'
-            text = text + '<link>' + self.__url + '</link>\n</article>'
-            text = text.encode('utf-8')
+            fileContents['body'] = bodyText
+            fileContents['link'] = self.__url
+            text = self.__textToXML(fileContents, 'article')
             with open(self.__savePath + fileName, 'w') as f:
-                f.write(text)
+                f.write(text.encode('utf-8'))
             print 'Downloaded article :', fileName
                                     
     def run(self):

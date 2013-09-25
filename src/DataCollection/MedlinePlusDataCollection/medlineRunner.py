@@ -28,12 +28,12 @@ class MedlineRunner:
                 
         # Downloader
         pool = workerpool.WorkerPool(size=20)
-        for url in topics:
+        for url in topics[:3]:
             topicCount = topicCount + 1
             job = MedlineDataExtractor(url, self.__topicPath, isArticle=False)
             pool.put(job)
             
-        for url in articles:
+        for url in articles[:3]:
             articleCount = articleCount + 1
             job = MedlineDataExtractor(url, self.__articlePath, isArticle=True)
             pool.put(job)

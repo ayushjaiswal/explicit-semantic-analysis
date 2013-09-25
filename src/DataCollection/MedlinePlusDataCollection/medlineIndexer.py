@@ -1,7 +1,7 @@
 # Saves the index files for aricles and topics 
 import re
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, exists
 
 dataPath = "../../../data/Medline/"
 topicFolder = 'Topics'
@@ -26,15 +26,24 @@ class MedlineIndexer:
     def indexFiles(self):
         """Indexes topics and articles collected from Medline."""
 
-        topicFiles = [fileName for fileName in listdir(self.__topicPath) if isfile(self.__topicPath + fileName) and fileName[:-1] != '~']
-        articleFiles = [fileName for fileName in listdir(self.__articlePath) if isfile(self.__articlePath + fileName) and fileName[:-1] != '~']
-        with open(self.__indexFilePath + 'TopicIndex', 'w') as f:
-            for fileName in topicFiles:
-                f.write(self.__getRow(fileName, self.__topicFolder))
+        if exists(self.__topicPath):
+            topicList = listdir(self.__topicPath)
+            topicFiles = [fileName for fileName in topicList if isfile(self.__topicPath + fileName) and fileName[:-1] != '~']
+            with open(self.__indexFilePath + 'TopicIndex', 'w') as f:
+                for fileName in topicFiles:
+                    f.write(self.__getRow(fileName, self.__topicFolder))
 
-        with open(self.__indexFilePath + 'ArticleIndex', 'w') as f:
-            for fileName in articleFiles:
-                f.write(self.__getRow(fileName, self.__articleFolder))
+        else:
+            print "Topics folder doesn't exist."
+
+        if exists(self.__articlePath):
+            articleList = listdir(self.__articlePath)
+            articleFiles = [fileName for fileName in articleList if isfile(self.__articlePath + fileName) and fileName[:-1] != '~']
+            with open(self.__indexFilePath + 'ArticleIndex', 'w') as f:
+                for fileName in articleFiles:
+                    f.write(self.__getRow(fileName, self.__articleFolder))
+        else:
+            print "Articles folder doesn't exist."
 
 def main():
     """To run indexing as a standalone program."""
