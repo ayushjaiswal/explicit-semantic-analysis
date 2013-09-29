@@ -28,7 +28,8 @@ class MedlineIndexer:
 
         if exists(self.__topicPath):
             topicList = listdir(self.__topicPath)
-            topicFiles = [fileName for fileName in topicList if isfile(self.__topicPath + fileName) and fileName[:-1] != '~']
+            topicFiles = [fileName for fileName in topicList if isfile(self.__topicPath + fileName)]
+            topicFiles.sort()
             with open(self.__indexFilePath + 'TopicIndex', 'w') as f:
                 for fileName in topicFiles:
                     f.write(self.__getRow(fileName, self.__topicFolder))
@@ -37,7 +38,8 @@ class MedlineIndexer:
 
         if exists(self.__articlePath):
             articleList = listdir(self.__articlePath)
-            articleFiles = [fileName for fileName in articleList if isfile(self.__articlePath + fileName) and fileName[:-1] != '~']
+            articleFiles = [fileName for fileName in articleList if isfile(self.__articlePath + fileName)]
+            articleFiles.sort()
             with open(self.__indexFilePath + 'ArticleIndex', 'w') as f:
                 for fileName in articleFiles:
                     f.write(self.__getRow(fileName, self.__articleFolder))

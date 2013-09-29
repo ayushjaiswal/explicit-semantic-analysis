@@ -65,6 +65,8 @@ class MedlineDataExtractor(workerpool.Job):
             fileContents['body'] = bodyText
             fileContents['link'] = self.__url
             text = self.__textToXML(fileContents, 'topic')
+            if os.path.isfile(self.__savePath + fileName):
+                fileName = fileName + '_1'
             with open(self.__savePath + fileName,'w') as f:
                 f.write(text.encode('utf-8'))
             print 'Downloaded topic :', fileName
@@ -89,6 +91,8 @@ class MedlineDataExtractor(workerpool.Job):
             fileContents['body'] = bodyText
             fileContents['link'] = self.__url
             text = self.__textToXML(fileContents, 'article')
+            if os.path.isfile(self.__savePath + fileName):
+                fileName = fileName + '_1'
             with open(self.__savePath + fileName, 'w') as f:
                 f.write(text.encode('utf-8'))
             print 'Downloaded article :', fileName
