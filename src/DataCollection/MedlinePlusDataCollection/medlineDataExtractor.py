@@ -86,7 +86,12 @@ class MedlineDataExtractor(workerpool.Job):
             while not bodyContents is None:
                 if bodyContents.text == 'References':
                     break
-                bodyText = bodyText + bodyContents.text
+                elif bodyContents.name == 'h2':
+                    bodyText = bodyText + '\n'+ bodyContents.text + ' '
+                elif bodyContents.name == 'ul':
+                    bodyText = bodyText + bodyContents.getText(separator=u' ') + ' '
+                else:
+                    bodyText = bodyText + bodyContents.text + ' '
                 bodyContents = bodyContents.nextSibling
             fileContents['body'] = bodyText
             fileContents['link'] = self.__url
