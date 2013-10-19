@@ -3,7 +3,7 @@ from medlineDataExtractor import MedlineDataExtractor
 import workerpool
 
 topicsXML_path = "../../../etc/mplus_topics_2013-09-14.xml"
-dataPath = "../../../data/raw/Medline/"
+dataPath = "../../../data/Medline/raw/"
 topicFolder = 'Topics'
 articleFolder = 'Articles'
 

@@ -3,7 +3,7 @@ import re
 from os import listdir
 from os.path import isfile, join, exists
 
-dataPath = "../../../data/raw/Medline/"
+dataPath = "../../../data/Medline/raw/"
 topicFolder = 'Topics'
 articleFolder = 'Articles'
 

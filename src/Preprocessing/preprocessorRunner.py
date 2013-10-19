@@ -2,8 +2,8 @@ from preprocessingTools import Preprocessor
 import xml.etree.ElementTree as ET
 import os
 
-rawDataPath = "../../data/raw/Medline/Topics"
-preprocessedDataPath = "../../data/preprocessed/Medline/Topics"
+rawDataPath = "../../data/Medline/raw/Topics"
+preprocessedDataPath = "../../data/Medline/preprocessed/Topics"
 dataTag = "body"
 shouldFilterStopWords = True
 shouldFilterPunctuation = True
