@@ -4,23 +4,24 @@ from os import listdir
 from os.path import isfile, join, exists
 
 dataPath = "../../../data/Medline/raw/"
+indexPath = "../../../data/Medline/"
 topicFolder = 'Topics'
 articleFolder = 'Articles'
 
 class MedlineIndexer:
     """Indexer for Medline articles and topics."""
 
-    def __init__(self, dataPath, topicFolder, articleFolder):
+    def __init__(self, dataPath, indexFilePath, topicFolder, articleFolder):
         self.__topicPath = dataPath + topicFolder + '/'
         self.__articlePath = dataPath + articleFolder + '/'
-        self.__indexFilePath = dataPath
+        self.__indexFilePath = indexFilePath
         self.__topicFolder = topicFolder
         self.__articleFolder = articleFolder
 
     def __getRow(self, fileName, folderName):
         """Return row for CSV."""
         
-        row = fileName + ', ' + folderName + '/' + fileName + '\n'
+        row = fileName + '|||| ' + folderName + '/' + fileName + '\n'
         return row
 
     def indexFiles(self):
@@ -50,7 +51,7 @@ def main():
     """To run indexing as a standalone program."""
 
     print "Indexing files..."
-    indexer = MedlineIndexer(dataPath, topicFolder, articleFolder)
+    indexer = MedlineIndexer(dataPath, indexPath, topicFolder, articleFolder)
     indexer.indexFiles()
     print "Done."
 
