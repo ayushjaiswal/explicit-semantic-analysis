@@ -25,7 +25,7 @@ class Preprocessor:
 
     def __init__(self, text, shouldFilterStopWords=True):
         self.__text = text
-        self.__rawTokens = self.__tokenize(self.__text)
+        self.__rawTokens = [t.lower() for t in self.__tokenize(self.__text)]
         self.__stopWords = nltk.corpus.stopwords.words('english')
         if shouldFilterStopWords:
             self.__rawTokens = self.__filterStopWords(self.__rawTokens)
@@ -63,7 +63,7 @@ class Preprocessor:
     def __filterStopWords(self, tokens):
         """Removes all the stop words from tokens."""
 
-        return [t for t in tokens if not t.lower() in self.__stopWords]
+        return [t for t in tokens if not t in self.__stopWords]
 
     def getTokens(self, type=TokenType.raw, shouldFilterPunctuation=True):
         """Returns tokens.
