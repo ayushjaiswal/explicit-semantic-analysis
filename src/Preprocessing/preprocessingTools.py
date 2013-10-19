@@ -58,7 +58,16 @@ class Preprocessor:
     def __filterPunctuation(self, tokens):
         """Removes all punctuation marks from tokens."""
 
-        return [t for t in tokens if self.__isNotPunctuation(t)]
+        filteredTokens = []
+        for token in tokens:
+            punctuationsOnly = True
+            for c in token:
+                if self.__isNotPunctuation(c):
+                    punctuationsOnly = False
+                    break
+            if not punctuationsOnly:
+                filteredTokens.append(token)
+        return filteredTokens
 
     def __filterStopWords(self, tokens):
         """Removes all the stop words from tokens."""
