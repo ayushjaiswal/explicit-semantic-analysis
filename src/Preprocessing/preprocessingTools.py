@@ -36,7 +36,7 @@ class Preprocessor:
     def __tokenize(self, text):
         """Tokenizes raw text into words and punctuation marks."""
         
-        return nltk.word_tokenize(text.replace(". ", " . "))
+        return nltk.tokenize.wordpunct_tokenize(text.replace(". ", " . "))
 
     def __stem(self, tokens):
         """Performs stemming on tokens and returns the list of stems."""
