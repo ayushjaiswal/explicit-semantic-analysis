@@ -79,11 +79,12 @@ class Preprocessor:
 
         """
 
-        tokens = self.__rawTokens
         if type == self.TokenType.stemmed:
             tokens = self.__stemmedTokens
         elif type == self.TokenType.lemmatized:
             tokens = self.__lemmatizedTokens
+        else:
+            tokens = self.__rawTokens
 
         if shouldFilterPunctuation:
             return self.__filterPunctuation(tokens)
