@@ -1,12 +1,11 @@
-from tuples import Tuples
 from tfIdfGenerator import TfIdfGenerator
 from objectDumperAndLoader import ObjectDumperAndLoader
 import os
 
 srcFolder = "../../data/Medline/preprocessed/Topics"
 indexFilePath = "../../data/Medline/TopicIndex"
-dumperDestination = "../../data/ESAModel"
-dumperFileName = "InverseTFIDF.pkl"
+dumperDestination = "../../data/ESAModel/"
+dumperFileName = "TFIDF_InvertedIndex.pkl"
 
 class Runner:
     """Runner for ESA model"""
@@ -23,7 +22,7 @@ class Runner:
         self.__folderPath = folderPath
         self.__indexFilePath = indexFilePath
         
-    
+        
     def run(self):
         """Generates inverse tf-idf score and saves at specified location"""
          
@@ -32,15 +31,17 @@ class Runner:
             listOfFiles = [name.split('||||')[0] for name in text]
         
         documentList = [self.__folderPath + fileName for fileName in listOfFiles]
-        TuplesObj = Tuples(documentList)
-        TuplesObj.process()
-        
-        tfIdfGeneratorObj = TfIdfGenerator(TuplesObj.getTuplesList(), TuplesObj.getWordSet())
+
+        print 'Generating tf-idf scores.'
+        tfIdfGeneratorObj = TfIdfGenerator(documentList)
         tfIdfGeneratorObj.generate()
-        tfidf = tfIdfGeneratorObj.getInverseTFIDF()
-        
+        print 'tf-idf scores generated.\n'
+        tfidf = tfIdfGeneratorObj.get_TFIDF_InvertedIndex()
+
+        print 'Dumping object..'
         objectDumperAndLoader = ObjectDumperAndLoader()
         objectDumperAndLoader.dump(tfidf, self.__dumperDestination, self.__dumperFileName)
+        print 'object saved at', self.__dumperDestination+self.__dumperFileName
 
 if __name__ == "__main__":
     runner = Runner(srcFolder, indexFilePath, dumperDestination, dumperFileName)
