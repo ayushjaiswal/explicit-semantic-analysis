@@ -11,9 +11,9 @@ class Runner:
     """Runner for ESA model"""
     
     def __init__(self, folderPath, indexFilePath, dumperDestination, dumperFileName):
-        if folderPath[:-1] != '/':
+        if folderPath[-1] != '/':
             folderPath  =  folderPath + '/'
-        if dumperDestination[:-1] != '/':
+        if dumperDestination[-1] != '/':
             dumperDestination  =  dumperDestination + '/'
         self.__dumperDestination = dumperDestination
         if not os.path.exists(self.__dumperDestination):

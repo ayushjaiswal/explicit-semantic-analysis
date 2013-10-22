@@ -9,6 +9,11 @@ class TfIdfGenerator:
         self.__documentList = documentList
         self.__TFIDF_InvertedIndex = defaultdict(lambda: defaultdict(int))
                    
+    def __getIDF(self, df, numberOfDocuments):
+        """returns idf value for a word"""
+        
+        return log(numberOfDocuments/df)
+        
     def generate(self):
         """Generates tf-idf scores from document tuples"""
 
@@ -35,11 +40,10 @@ class TfIdfGenerator:
         
         for word in wordSet:
             if DF[word] == 0:
-                IDF[word] = 0
+                self.__TFIDF_InvertedIndex[word][ConceptId] = 0
             else:
-                IDF[word] = log(numberOfDocuments/DF[word])
-            for ConceptId in TF_InvertedIndex[word].keys():
-                self.__TFIDF_InvertedIndex[word][ConceptId] = TF_InvertedIndex[word][ConceptId] * IDF[word]
+                for ConceptId in TF_InvertedIndex[word].keys():
+                    self.__TFIDF_InvertedIndex[word][ConceptId] = TF_InvertedIndex[word][ConceptId] * self.__getIDF(DF[word], numberOfDocuments)
         print len(wordSet), "words found in", numberOfDocuments, "documents."
         
     def get_TFIDF_InvertedIndex(self):

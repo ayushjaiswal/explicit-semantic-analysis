@@ -10,3 +10,9 @@ Install the following packages:
     
     d. NLTk
         http://nltk.org/install.html
+        
+    e. PiCloud
+        sudo apt-get install python-setuptools
+        sudo etc/<picloud dir>/setup.py install
+        Documentation : www.docs.picloud.com
+
