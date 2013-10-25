@@ -2,11 +2,7 @@ from tfIdfGenerator import TfIdfGenerator
 from objectDumperAndLoader import ObjectDumperAndLoader
 from ESA_util import ESADumpDS
 import os
-
-srcFolder = "../../data/Medline/preprocessed/Topics"
-indexFilePath = "../../data/Medline/TopicIndex"
-dumperDestination = "../../data/ESAModel/"
-dumpFileName = "TFIDF_InvertedIndex.pkl"
+import runnerConfig
 
 class ESARunner:
     """Runner for ESA model"""
@@ -50,5 +46,5 @@ class ESARunner:
         print 'TFIDF-inverted-index dump saved at:', self.__dumperDestination + self.__dumpFileName
 
 if __name__ == "__main__":
-    runner = ESARunner(srcFolder, indexFilePath, dumperDestination, dumpFileName)
+    runner = ESARunner(runnerConfig.srcFolder, runnerConfig.indexFilePath, runnerConfig.dumperDestination, runnerConfig.dumpFileName)
     runner.run()

@@ -1,12 +1,8 @@
 # Saves the index files for aricles and topics 
 import re
+import indexerConfig
 from os import listdir
 from os.path import isfile, join, exists
-
-dataPath = "../../../data/Medline/raw/"
-indexPath = "../../../data/Medline/"
-topicFolder = 'Topics'
-articleFolder = 'Articles'
 
 class MedlineIndexer:
     """Indexer for Medline articles and topics."""
@@ -51,7 +47,7 @@ def main():
     """To run indexing as a standalone program."""
 
     print "Indexing files..."
-    indexer = MedlineIndexer(dataPath, indexPath, topicFolder, articleFolder)
+    indexer = MedlineIndexer(indexerConfig.dataPath, indexerConfig.indexPath, indexerConfig.topicFolder, indexerConfig.articleFolder)
     indexer.indexFiles()
     print "Done."
 

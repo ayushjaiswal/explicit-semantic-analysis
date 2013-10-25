@@ -1,17 +1,15 @@
 from medlineLinkExtractor import MedlineLinkExtractor
 from medlineDataExtractor import MedlineDataExtractor
 import workerpool
-
-topicsXML_path = "../../../etc/mplus_topics_2013-09-14.xml"
-dataPath = "../../../data/Medline/raw/"
-topicFolder = 'Topics'
-articleFolder = 'Articles'
+import runnerConfig
 
 class MedlineRunner:
     """Class to run the Medline data collection pipeline."""
 
     def __init__(self, topicsXML_path, dataPath, topicFolder, articleFolder):
         self.__topicsXML_path = topicsXML_path
+        if dataPath[-1] != '/':
+            dataPath = dataPath + '/'
         self.__topicPath = dataPath + topicFolder + '/'
         self.__articlePath = dataPath + articleFolder + '/'
 
@@ -47,7 +45,7 @@ class MedlineRunner:
 def main():
     """To run this module as a standalone program."""
 
-    medlineRunner = MedlineRunner(topicsXML_path, dataPath, topicFolder, articleFolder)
+    medlineRunner = MedlineRunner(runnerConfig.topicsXML_path, runnerConfig.dataPath, runnerConfig.topicFolder, runnerConfig.articleFolder)
     medlineRunner.downloadAndExtract()
 
 if __name__ == '__main__':

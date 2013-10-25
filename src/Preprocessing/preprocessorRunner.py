@@ -1,13 +1,7 @@
 from preprocessingTools import Preprocessor
 import xml.etree.ElementTree as ET
 import os
-
-rawDataPath = "../../data/Medline/raw/Topics"
-preprocessedDataPath = "../../data/Medline/preprocessed/Topics"
-dataTag = "body"
-shouldFilterStopWords = True
-shouldFilterPunctuation = True
-tokenType = Preprocessor.TokenType.lemmatized
+import runnerConfig
 
 class PreprocessorRunner:
     """Class to run the data preprocessing pipeline."""
@@ -74,8 +68,8 @@ class PreprocessorRunner:
             "Source path does not exist!"
 
 def main():
-    preprocessor = PreprocessorRunner(shouldFilterStopWords, shouldFilterPunctuation, tokenType)
-    preprocessor.preprocessFiles(rawDataPath, dataTag, preprocessedDataPath)
+    preprocessor = PreprocessorRunner(runnerConfig.shouldFilterStopWords, runnerConfig.shouldFilterPunctuation, runnerConfig.tokenType)
+    preprocessor.preprocessFiles(runnerConfig.rawDataPath, runnerConfig.dataTag, runnerConfig.preprocessedDataPath)
 
 if __name__ == '__main__':
     main()
