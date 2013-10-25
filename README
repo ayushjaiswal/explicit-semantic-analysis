@@ -13,6 +13,6 @@ Install the following packages:
         
     e. PiCloud
         sudo apt-get install python-setuptools
-        sudo etc/<picloud dir>/setup.py install
-        Documentation : www.docs.picloud.com
-
+        tar -xvzf etc/<picloud tar-file>
+        sudo python etc/<picloud dir>/setup.py install
+        Documentation : docs.picloud.com
