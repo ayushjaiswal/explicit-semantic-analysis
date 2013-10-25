@@ -1,5 +1,6 @@
 from tfIdfGenerator import TfIdfGenerator
 from objectDumperAndLoader import ObjectDumperAndLoader
+from ESA_util import ESADumpDS
 import os
 
 srcFolder = "../../data/Medline/preprocessed/Topics"
@@ -38,10 +39,14 @@ class ESARunner:
         tfIdfGeneratorObj = TfIdfGenerator(documentList)
         print 'TF-IDF scores generated.\n'
         TFIDF_InvertedIndex = tfIdfGeneratorObj.get_TFIDF_InvertedIndex()
+        wordSet = tfIdfGeneratorObj.getWordSet()
+        numberOfDocuments = tfIdfGeneratorObj.getNumberOfDocuments()
+
+        ESADump = ESADumpDS(wordSet, numberOfDocuments, TFIDF_InvertedIndex)
 
         print 'Dumping object..'
         objectDumperAndLoader = ObjectDumperAndLoader()
-        objectDumperAndLoader.dump(TFIDF_InvertedIndex, self.__dumperDestination, self.__dumpFileName)
+        objectDumperAndLoader.dump(ESADump, self.__dumperDestination, self.__dumpFileName)
         print 'TFIDF-inverted-index dump saved at:', self.__dumperDestination + self.__dumpFileName
 
 if __name__ == "__main__":
