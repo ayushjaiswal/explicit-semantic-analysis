@@ -7,8 +7,8 @@ class PreprocessorRunner:
     """Class to run the data preprocessing pipeline."""
 
     def __init__(self, shouldFilterStopWords=True, shouldFilterPunctuation=True, tokenType=Preprocessor.TokenType.raw):
-        self.shouldFilterStopWords = shouldFilterStopWords
-        self.shouldFilterPunctuation = shouldFilterPunctuation
+        self.__shouldFilterStopWords = shouldFilterStopWords
+        self.__shouldFilterPunctuation = shouldFilterPunctuation
         self.tokenType = tokenType
 
     def __getFullPath(self, path, filename):
@@ -46,8 +46,8 @@ class PreprocessorRunner:
     def preprocessText(self, text):
         """Returns the list of tokens after preprocessing 'text'."""
 
-        preprocessor = Preprocessor(text, self.shouldFilterStopWords)
-        processedTokens = preprocessor.getTokens(self.tokenType, self.shouldFilterPunctuation)
+        preprocessor = Preprocessor(text, self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
+        processedTokens = preprocessor.getTokens(self.tokenType)
         return processedTokens
 
     def preprocessFiles(self, rawDataPath, dataTag, preprocessedDataPath):

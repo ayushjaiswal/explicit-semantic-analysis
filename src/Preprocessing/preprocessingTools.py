@@ -23,12 +23,13 @@ class Preprocessor:
         stemmed = 1
         lemmatized = 2
 
-    def __init__(self, text, shouldFilterStopWords=True):
+    def __init__(self, text, shouldFilterStopWords=True, shouldFilterPunctuation=True):
         self.__text = text
         self.__rawTokens = [t.lower() for t in self.__tokenize(self.__text)]
         self.__stopWords = nltk.corpus.stopwords.words('english')
         if shouldFilterStopWords:
             self.__rawTokens = self.__filterStopWords(self.__rawTokens)
+        self.__shouldFilterPunctuation = shouldFilterPunctuation
         self.__stemmedTokens = self.__stem(self.__rawTokens)
         self.__lemmatizedTokens = self.__lemmatize(self.__rawTokens)
         self.TokenType = Preprocessor.TokenType
@@ -74,7 +75,7 @@ class Preprocessor:
 
         return [t for t in tokens if not t in self.__stopWords]
 
-    def getTokens(self, type=TokenType.raw, shouldFilterPunctuation=True):
+    def getTokens(self, type=TokenType.raw):
         """Returns tokens.
 
         type can be the following token types:
@@ -95,7 +96,7 @@ class Preprocessor:
         else:
             tokens = self.__rawTokens
 
-        if shouldFilterPunctuation:
+        if self.__shouldFilterPunctuation:
             return self.__filterPunctuation(tokens)
         else:
             return tokens
