@@ -1,5 +1,5 @@
 #Configuration file for PreprocessorRunner
-
+from preprocessingTools import Preprocessor
 #source path for raw data
 rawDataPath = "../../data/Medline/raw/Topics"
 
