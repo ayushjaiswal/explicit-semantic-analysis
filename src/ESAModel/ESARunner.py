@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(".."))
 from tfIdfGenerator import TfIdfGenerator
 from objectDumperAndLoader import ObjectDumperAndLoader
 from ESA_util import ESADumpDS

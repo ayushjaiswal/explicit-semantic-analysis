@@ -17,4 +17,3 @@ shouldFilterPunctuation = True
 
 #Type of token
 tokenType = Preprocessor.TokenType.lemmatized
-
