@@ -12,7 +12,6 @@ Install the following packages:
         http://nltk.org/install.html
         
     e. PiCloud
-        sudo apt-get install python-setuptools
         tar -xvzf etc/<picloud tar-file>
         sudo python etc/<picloud dir>/setup.py install
         Documentation : docs.picloud.com
