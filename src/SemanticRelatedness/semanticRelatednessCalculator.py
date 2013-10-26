@@ -20,7 +20,7 @@ class SemanticRelatednessCalculatorESA:
         self.__tokens2 = []
 
     def __getTokenWeights(self, tokenList):
-        """Get the frequencies of all tokens in tokenList."""
+        """Get the TFIDF of all tokens in tokenList."""
 
         wordWeights = defaultdict(int)
         for token in tokenList:
