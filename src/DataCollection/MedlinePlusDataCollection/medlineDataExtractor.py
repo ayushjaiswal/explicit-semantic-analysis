@@ -56,7 +56,7 @@ class MedlineDataExtractor(workerpool.Job):
         body = soupObj.find("div", {"id":"tpsummary"})
         if not title is None and not body is None:
             titleText = title.text.strip()
-            fileName = self.__getFileName(titleText)
+            fileName = self.__getFileName(titleText) + '.xml'
             bodyText = body.text
             fileContents = {}
             fileContents['title'] = titleText
@@ -79,7 +79,7 @@ class MedlineDataExtractor(workerpool.Job):
         if not title is None and not body is None:
             titleText = title.text.strip()
             bodyContents = body.div.div
-            fileName = self.__getFileName(titleText)
+            fileName = self.__getFileName(titleText) + '.xml'
             fileContents = {}
             fileContents['title'] = titleText
             bodyText = ''
