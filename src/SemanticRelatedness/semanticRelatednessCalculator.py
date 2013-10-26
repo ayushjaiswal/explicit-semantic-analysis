@@ -1,3 +1,4 @@
+from __future__ import division
 import sys
 import os
 sys.path.insert(0, os.path.abspath(".."))
@@ -15,23 +16,34 @@ class SemanticRelatednessCalculatorESA:
         self.__tokenType = tokenType
         self.__shouldFilterPunctuation = shouldFilterPunctuation
         self.__shouldFilterStopWords = shouldFilterStopWords
+        self.__tokens1 = []
+        self.__tokens2 = []
 
-    def __getTokenFrequencies(self, tokenList):
+    def __getTokenWeights(self, tokenList):
         """Get the frequencies of all tokens in tokenList."""
 
-        wordFrequencies = defaultdict(int)
+        wordWeights = defaultdict(int)
         for token in tokenList:
-            wordFrequencies[token] = wordFrequencies[token] + 1
-        return wordFrequencies
+            wordWeights[token] = wordWeights[token] + 1
+        
+        for token in wordWeights.keys():
+            count = 0
+            if token in self.__tokens1:
+                count = count + 1
+            if token in self.__tokens2:
+                count = count + 1
+            wordWeights[token] = wordWeights[token] * (math.log(2 / count) + 1)
+
+        return wordWeights
 
     def __getWeightedVectorOfConcepts(self, tokenList):
         """Returns the weighted vector of concepts for the words in tokenList."""
 
-        tf = self.__getTokenFrequencies(tokenList)
+        tw = self.__getTokenWeights(tokenList)
         weightedVectorOfConcepts = [0 for i in range(self.__numberOfConcepts)]
         for concept in range(1, self.__numberOfConcepts + 1):
             for word in tokenList:
-                weightedVectorOfConcepts[concept - 1] = weightedVectorOfConcepts[concept - 1] + (self.__Concepts_TFIDF_InvertedIndex[word][concept] * tf[word])
+                weightedVectorOfConcepts[concept - 1] = weightedVectorOfConcepts[concept - 1] + (self.__Concepts_TFIDF_InvertedIndex[word][concept] * tw[word])
         return weightedVectorOfConcepts
 
     def __getNorm(self, vector):
@@ -61,6 +73,9 @@ class SemanticRelatednessCalculatorESA:
         preprocessor2 = Preprocessor(text2, self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
         tokens2 = preprocessor2.getTokens(self.__tokenType)
         
+        self.__tokens1 = tokens1
+        self.__tokens2 = tokens2
+
         weightedVectorOfConcepts1 = self.__getWeightedVectorOfConcepts(tokens1)
         weightedVectorOfConcepts2 = self.__getWeightedVectorOfConcepts(tokens2)
 
