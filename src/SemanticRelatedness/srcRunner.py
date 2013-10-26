@@ -12,7 +12,7 @@ class SRC_Runner:
         self.__shouldFilterStopWords = Preprocessing.runnerConfig.shouldFilterStopWords
         self.__shouldFilterPunctuation = Preprocessing.runnerConfig.shouldFilterPunctuation
         self.__tokenType = Preprocessing.runnerConfig.tokenType
-        self.__semanticRelatednessCalculator = SemanticRelatednessCalculatorESA(self.__ESAConceptsInfo, self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
+        self.__semanticRelatednessCalculator = SemanticRelatednessCalculatorESA(self.__ESAConceptsInfo, self.__tokenType, self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
 
     def __readFile(self, filePath):
         """Reads a text file and returns the text."""
