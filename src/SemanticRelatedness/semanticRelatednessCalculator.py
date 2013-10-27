@@ -32,7 +32,9 @@ class SemanticRelatednessCalculatorESA:
                 count = count + 1
             if token in self.__tokens2:
                 count = count + 1
-            wordWeights[token] = wordWeights[token] * (math.log(2 / count) + 1)
+            if wordWeights[token] > 0:
+                wordWeights[token] = 1 + math.log(wordWeights[token])  # sublinear scaling
+            wordWeights[token] = wordWeights[token] * (math.log(2 / count) + 1)  # multiplication with idf
 
         return wordWeights
 

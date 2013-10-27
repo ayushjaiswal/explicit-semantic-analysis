@@ -44,6 +44,8 @@ class TfIdfGenerator:
                 self.__TFIDF_InvertedIndex[word][ConceptId] = 0
             else:
                 for conceptId in TF_InvertedIndex[word].keys():
+                    if self.__TFIDF_InvertedIndex[word][conceptId] > 0:
+                        self.__TFIDF_InvertedIndex[word][conceptId] = 1 + log(self.__TFIDF_InvertedIndex[word][conceptId])  # sublinear scaling
                     self.__TFIDF_InvertedIndex[word][conceptId] = TF_InvertedIndex[word][conceptId] * self.__getIDF(DF[word])
         print len(self.__wordSet), "words found in", self.__numberOfDocuments, "documents."
         
