@@ -14,7 +14,7 @@
 
 \author{
     \IEEEauthorblockN{Ayush Jaiswal, Anunay Bhargava}\\
-   \emph{Guided by: Prof. Abdul Nazeer K A, Associate Professor, Dept. of CSE\\National Institute of Technology Calicut}
+   \emph{Guided by: Abdul Nazeer K A, Associate Professor, Dept. of CSE\\National Institute of Technology Calicut}
 }
 
 % make the title area
@@ -56,7 +56,7 @@ Insights into Explicit Semantic Analysis by Gottron, Anderka and Stein (2011) \c
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{\textbf{Motivation}}
-The ESA model outperformed previously developed statistical, lexical, other Wikipedia-based methods, and Latent Semantic Analysis, but it is a very general approach towards finding semantic relatedness of text fragments and has some subtle flaws. These are discussed as follows.\\
+The ESA model outperformed previously developed statistical, lexical, other Wikipedia-based methods, and Latent Semantic Analysis, but it is a very general approach towards finding semantic relatedness of text fragments and has some flaws. These are discussed as follows.\\
 An obvious flaw in the Wikipedia-based model is that each word can map to various concepts across multiple domains. For example, ``cancer'' shows associations to the Wikipedia articles on the disease cancer, the constellation cancer, and the astrological sign cancer, to name a few. While the associations of the other words in the text fragment are expected to disambiguate the sense of cancer, it can be seen that the meaning of ``cancer'' is distorted by multiple mappings. Moreover, the large number of mappings is not needed when the text fragments are known to lie in a particular domain.\\
 A major flaw in Wikipedia-based ESA is that the large number of articles in Wikipedia makes the development of the model time and space consuming as the weight for each concept has to be computed to find the final representation of text fragments as a weighted vector of concepts. The same problem arises when the semantic relatedness of two text fragments is computed.\\
 The large number of articles also adds significant distortion to the concept space. The orthogonality of concepts, referred to as concept hypothesis, forms the basis of the ESA model. On close analysis, we found that domain-specific knowledge-bases are more orthogonal in concepts than Wikipedia. For example, the Wikipedia article on Diabetes Mellitus not only describes the same in general but also explains its different types. Along with that, separate Wikipedia articles are present for each type of Diabetes Mellitus. On the other hand, MedlinePlus has a topic for Diabetes Mellitus which explains it in general, and separate topics for its each type. We can see that the concepts in Wikipedia are thus more distorted. This leads us to question the claimed orthogonality of Wikipedia concepts. This problem is aggravated by the fact that Wikipedia is open for editing to everyone, and the articles can thus become more repetitive as people add more information to them. On the other hand, domain-specific knowledge-bases can be chosen from well-maintained sources, such as MedlinePlus for topics related to diseases, conditions, and wellness issues. Such knowledge-bases can be expected to be less repetitive in nature, and the concept space can then be expected to be less distorted.\\
@@ -81,23 +81,12 @@ This component runs on the platform created by the Initializer component every t
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \section{\textbf{Current Status}}
-Our first step was to decide and design the various components of the framework to meet our goals. The final design has been discussed in the previous section. We are implementing the entire framework in Python 2.7.\\
-Our next step was to choose a domain and to download articles in that domain from a specialized knowledge-base. We chose the domain of diseases, conditions, and wellness issues, and our knowledge-base as topics in MedlinePlus XML dump. Links for the topics and articles in MedlinePlus are available for download from http://www.nlm.nih.gov/medlineplus/xml.html in XML format. We have implemented the following modules:
-\begin{itemize}
-\item Data Collection: The XML file available on the MedlinePlus website, dated 14th September, 2013 is parsed and all the required data available on the links is saved after cleaning HTML tags. The data is saved in XML format with root tags ``articles'' and ``topics'' for their respective categories, to suit our purpose.
-\item Data Preprocessing: This module is the first component of the framework. It preprocesses the raw text fetched by the  data collection module. The aim is to maintain the consistency of the data within the implementation. Preprocessing includes:
-\begin{itemize}
-\item Tokenization
-\item Lemmatization
-\item Normalization
-\item Removal of stop words
-\end{itemize}
-We have implemented this module as a domain-independent preprocessor, that does not use any specialized techniques, for now. We plan to refactor it so that it makes use of the techniques for the same developed for biomedical texts. We have also started work on implementing the Inverted Index Generator component.
-
-\end{itemize}
+Our first step was to decide and design the various components of the framework to meet our goals. The final design has been discussed in the previous section. We have implemented the entire framework in Python 2.7.\\
+We chose the domain of diseases, conditions, and wellness issues, and our knowledge-base as topics in MedlinePlus XML dump. Links for the topics and articles in MedlinePlus are available for download from http://www.nlm.nih.gov/medlineplus/xml.html in XML format. We parsed the XML file available on the MedlinePlus website, dated 14th September, 2013, and saved all the required data available on the links after cleaning HTML tags. We saved the data in XML format with root tags ``articles'' and ``topics'' for their respective categories, to suit our purpose.\\
+We have been able to run our code on text-fragment pairs that we extracted from MedlinePlus articles. To find out how well the semantic relatedness measures generated by our approach correlate with human judgements, we are carrying out a survey. People participating in the survey are required to rate how well text-fragment pairs are related to each other on a scale of 1-10 (1 being ``totally unrelated'' and 10 being ``exactly same''). Once our survey is complete, we will find the correlation between the human judgements and the scores generated by our code. Correlation with human judegements has been used in earlier work on finding semantic relatedness of text as a measure of how well a particular approach works.
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{\textbf{Conclusion}}
-We cannot draw any conclusion until the implementation is complete.
+We cannot draw any conclusion until the survey is complete, and the correlation of generated scores with human judgements is found.
 
 \newpage
 
@@ -120,7 +109,7 @@ Alexander Budanitsky and Graeme Hirst.
 \newblock Computational Linguistics, 32(1):13–47, 2006.
 \bibitem{LSA}
 S. Deerwester, S. Dumais, G. Furnas,T. Landauer, and R. Harshman.
-\newblock {\em Indexing by Latent semantic analysis}.
+\newblock {\em Indexing by Latent Semantic Analysis}.
 \newblock JASIS, 41(6):391–407, 1990.
 \bibitem{WikiRelate}
 Michael Strube and Simone Paolo Ponzetto.
