@@ -70,10 +70,10 @@ class SemanticRelatednessCalculatorESA:
     def getSemanticRelatednessScore(self, text1, text2):
         """Calculates the semantic relatedness of text1 and text2, and returns the final score."""
 
-        preprocessor1 = Preprocessor(text1, self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
-        tokens1 = preprocessor1.getTokens(self.__tokenType)
-        preprocessor2 = Preprocessor(text2, self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
-        tokens2 = preprocessor2.getTokens(self.__tokenType)
+        preprocessor1 = Preprocessor(self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
+        tokens1 = preprocessor1.getTokens(text1, self.__tokenType)
+        preprocessor2 = Preprocessor(self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
+        tokens2 = preprocessor2.getTokens(text2, self.__tokenType)
         
         self.__tokens1 = tokens1
         self.__tokens2 = tokens2
