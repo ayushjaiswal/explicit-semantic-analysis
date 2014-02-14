@@ -21,12 +21,9 @@ class PreprocessorRunner:
         return fullpath
 
     def __filterIllegal(self, text):
-        """Removes &, ', " from text which can create problems if not escaped."""
+        """Removes & from text which can create problems if not escaped."""
 
-        t = text.replace('&', '')
-        t = t.replace('"', '')
-        t = t.replace("'", "")
-        return t
+        return text.replace('&', '')
 
     def __readXMLFile(self, path, filename, dataTag):
         """Reads XML file and returns contents."""
@@ -49,8 +46,8 @@ class PreprocessorRunner:
     def preprocessText(self, text):
         """Returns the list of tokens after preprocessing 'text'."""
 
-        preprocessor = Preprocessor(text, self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
-        processedTokens = preprocessor.getTokens(self.tokenType)
+        preprocessor = Preprocessor(self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
+        processedTokens = preprocessor.getTokens(text, self.tokenType)
         return processedTokens
 
     def preprocessFiles(self, rawDataPath, dataTag, preprocessedDataPath):
@@ -61,6 +58,8 @@ class PreprocessorRunner:
                 os.makedirs(preprocessedDataPath)
             rawFiles = os.listdir(rawDataPath)
             for rawFile in rawFiles:
+                if rawFile[0] == '.':
+                    continue
                 rawText = self.__readXMLFile(rawDataPath, rawFile, dataTag)
                 processedTokens = self.preprocessText(rawText)
                 processedText = '\n'.join(processedTokens)

@@ -23,16 +23,10 @@ class Preprocessor:
         stemmed = 1
         lemmatized = 2
 
-    def __init__(self, text, shouldFilterStopWords=True, shouldFilterPunctuation=True):
-        self.__text = text
-        self.__rawTokens = [t.lower() for t in self.__tokenize(self.__text)]
-        self.__stopWords = nltk.corpus.stopwords.words('english')
-        if shouldFilterStopWords:
-            self.__rawTokens = self.__filterStopWords(self.__rawTokens)
+    def __init__(self, shouldFilterStopWords=True, shouldFilterPunctuation=True):
+        self.__shouldFilterStopWords = shouldFilterStopWords
         self.__shouldFilterPunctuation = shouldFilterPunctuation
-        self.__stemmedTokens = self.__stem(self.__rawTokens)
-        self.__lemmatizedTokens = self.__lemmatize(self.__rawTokens)
-        self.TokenType = Preprocessor.TokenType
+        self.__stopWords = nltk.corpus.stopwords.words('english')
 
     def __tokenize(self, text):
         """Tokenizes raw text into words and punctuation marks."""
@@ -75,8 +69,8 @@ class Preprocessor:
 
         return [t for t in tokens if not t in self.__stopWords]
 
-    def getTokens(self, type=TokenType.raw):
-        """Returns tokens.
+    def getTokens(self, text, type=TokenType.raw):
+        """Returns tokens after preprocessing text.
 
         type can be the following token types:
             self.TokenType.raw (default)
@@ -89,10 +83,16 @@ class Preprocessor:
 
         """
 
+        rawTokens = [t.lower() for t in self.__tokenize(text)]
+        if self.__shouldFilterStopWords:
+            rawTokens = self.__filterStopWords(rawTokens)
+        stemmedTokens = self.__stem(rawTokens)
+        lemmatizedTokens = self.__lemmatize(rawTokens)
+        self.TokenType = Preprocessor.TokenType
         if type == self.TokenType.stemmed:
-            tokens = self.__stemmedTokens
+            tokens = stemmedTokens
         elif type == self.TokenType.lemmatized:
-            tokens = self.__lemmatizedTokens
+            tokens = lemmatizedTokens
         else:
             tokens = self.__rawTokens
 
