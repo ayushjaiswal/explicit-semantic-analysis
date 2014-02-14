@@ -21,9 +21,12 @@ class PreprocessorRunner:
         return fullpath
 
     def __filterIllegal(self, text):
-        """Removes &, <, >, ', " from text which can create problems if not escaped."""
+        """Removes &, ', " from text which can create problems if not escaped."""
 
-        return text.replace('&', '')
+        t = text.replace('&', '')
+        t = t.replace('"', '')
+        t = t.replace("'", "")
+        return t
 
     def __readXMLFile(self, path, filename, dataTag):
         """Reads XML file and returns contents."""
