@@ -64,8 +64,11 @@ class SemanticRelatednessCalculatorESA:
         dotProduct = self.__getDotProduct(vector1, vector2)
         vector1_norm = self.__getNorm(vector1)
         vector2_norm = self.__getNorm(vector2)
-        cosineSimilarity = dotProduct / (vector1_norm * vector2_norm)
-        return cosineSimilarity
+        if vector1_norm == 0 or vector2_norm == 0:
+            return 0
+        else:
+            cosineSimilarity = dotProduct / (vector1_norm * vector2_norm)
+            return cosineSimilarity
 
     def getSemanticRelatednessScore(self, text1, text2):
         """Calculates the semantic relatedness of text1 and text2, and returns the final score."""

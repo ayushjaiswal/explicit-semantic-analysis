@@ -31,3 +31,12 @@ class SRC_Runner:
         text2 = self.__readFile(file2)
         similarityScore = self.__semanticRelatednessCalculator.getSemanticRelatednessScore(text1, text2)
         print "The similarity score (0-1) is:", similarityScore
+
+    def runBatch(self, pairs):
+        """Returns semantic relatedness of pairs of text as a list."""
+
+        scores = []
+        for text1, text2 in pairs:
+            similarityScore = self.__semanticRelatednessCalculator.getSemanticRelatednessScore(text1, text2)
+            scores.append(similarityScore)
+        return scores

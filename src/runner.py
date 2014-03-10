@@ -1,3 +1,5 @@
+import sys
+import csv
 import config
 from ESAModel.objectDumperAndLoader import ObjectDumperAndLoader
 import ESA_util
@@ -21,9 +23,38 @@ class Runner:
             shouldExit = raw_input("Exit? <y/n>: ")
         print "Bye!"
 
-def main():
+    def runBatch(self, pairs):
+        """Runs the application in batch mode."""
+
+        print "Word pairs read."
+        print "Calculating semantic relatedness scores..."
+        scores = self.__app.runBatch(pairs)
+        print "Calculation complete."
+        return scores
+
+def app():
     runnerObj = Runner(config.ESADumpPath, config.ESADumpFileName, config.ApplicationRunner, config.ApplicationName)
     runnerObj.run()
 
+def batch():
+    runnerObj = Runner(config.ESADumpPath, config.ESADumpFileName, config.ApplicationRunner, config.ApplicationName)
+    pairs = []
+    with open(config.BatchDataFile) as fIn:
+        contents = csv.reader(fIn)
+        first = True
+        for row in contents:
+            if first:
+                first = False
+            else:
+                pairs.append((row[config.Word1Index], row[config.Word2Index]))
+    scores = runnerObj.runBatch(pairs)
+    with open(config.BatchResultsDumpFile, 'w') as fOut:
+        for score in scores:
+            fOut.write(str(score) + '\n')
+    print "Results saved to", config.BatchResultsDumpFile
+
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == 'batch':
+        batch()
+    else:
+        app()
