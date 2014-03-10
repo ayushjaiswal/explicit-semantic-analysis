@@ -65,7 +65,7 @@ class SemanticRelatednessCalculatorESA:
         vector1_norm = self.__getNorm(vector1)
         vector2_norm = self.__getNorm(vector2)
         if vector1_norm == 0 or vector2_norm == 0:
-            return 0
+            return 0.0
         else:
             cosineSimilarity = dotProduct / (vector1_norm * vector2_norm)
             return cosineSimilarity
