@@ -2,8 +2,11 @@ import workerpool
 import re
 import os
 import urllib2
-from bs4 import BeautifulSoup
-
+try:
+    from bs4 import BeautifulSoup
+except:
+    from BeautifulSoup import BeautifulSoup
+    
 class MedlineDataExtractor(workerpool.Job):
     """Fetches the data from the given link and save"""
     

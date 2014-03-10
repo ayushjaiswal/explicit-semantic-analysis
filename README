@@ -7,6 +7,8 @@ Install the following packages:
     
     c. BeautifulSoup for parsing
         sudo apt-get install python-bs4
+        In case, bs4 is not available:
+            sudo apt-get install python-beautifulsoup
     
     d. NLTk
         http://nltk.org/install.html
