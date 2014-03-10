@@ -26,15 +26,12 @@ class Runner:
     def runBatch(self, pairs):
         """Runs the application in batch mode."""
 
+        print self.__appName, "started!"
         print "Word pairs read."
         print "Calculating semantic relatedness scores..."
         scores = self.__app.runBatch(pairs)
         print "Calculation complete."
         return scores
-
-def app():
-    runnerObj = Runner(config.ESADumpPath, config.ESADumpFileName, config.ApplicationRunner, config.ApplicationName)
-    runnerObj.run()
 
 def batch():
     runnerObj = Runner(config.ESADumpPath, config.ESADumpFileName, config.ApplicationRunner, config.ApplicationName)
@@ -54,7 +51,10 @@ def batch():
     print "Results saved to", config.BatchResultsDumpFile
 
 if __name__ == '__main__':
+    print "Loading..."
+    runnerObj = Runner(config.ESADumpPath, config.ESADumpFileName, config.ApplicationRunner, config.ApplicationName)
+    print "Done"
     if len(sys.argv) > 1 and sys.argv[1] == 'batch':
         batch()
     else:
-        app()
+        runnerObj.run()
