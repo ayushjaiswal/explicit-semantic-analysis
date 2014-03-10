@@ -1,14 +1,14 @@
 #Configuration file for ESAModel
 
 #source folder of preprocessed data to be used
-srcFolder = "../../data/Medline/preprocessed/Topics"
+srcFolder = "../../data/Medline/preprocessed/Merged"
 
 #index file for files in source folder
-indexFilePath = "../../data/Medline/TopicIndex"
+indexFilePath = "../../data/Medline/MergedIndex"
 
 #Destination folder for dumper
 dumperDestination = "../../data/ESAModel/"
 
 #Dumped filename
-dumpFileName = "TFIDF_InvertedIndex.pkl"
+dumpFileName = "TFIDF_InvertedIndex_Merged.pkl"
 

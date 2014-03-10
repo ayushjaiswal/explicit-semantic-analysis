@@ -1,4 +1,4 @@
-Install the following packages:
+* Install the following packages:
     a. SetupTools package:
         sudo apt-get install python-setuptools
     
@@ -17,3 +17,9 @@ Install the following packages:
         tar -xvzf etc/<picloud tar-file>
         sudo python etc/<picloud dir>/setup.py install
         Documentation : docs.picloud.com
+
+* To run in app mode, issue from src/ folder:
+	python runner.py
+
+* To run in batch mode, issue from src/ folder:
+	python runner.py batch
