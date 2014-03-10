@@ -25,23 +25,32 @@ class PreprocessorRunner:
 
         return text.replace('&', '')
 
+    def __getTags(self, tagName):
+        """Returns opening and closing tags for the tagName."""
+
+        startTag = '<' + tagName + '>'
+        endTag = '</' + tagName + '>'
+        return startTag, endTag
+
     def __readXMLFile(self, path, filename, dataTag):
         """Reads XML file and returns contents."""
 
         fullpath = self.__getFullPath(path, filename)
         text = ""
         with open(fullpath, 'r') as f:
-            text = self.__filterIllegal(f.read())
-        root = ET.fromstring(text)
-        body = root.find(dataTag)
-        return body.text
+            text = f.read()
+        opening, closing = self.__getTags(dataTag)
+        startIdx = text.index(opening) + len(opening)
+        endIdx = text.index(closing, startIdx)
+        body = text[startIdx:endIdx]
+        return body
 
     def __writeFile(self, path, filename, text):
         """Writes 'text' on file 'path/filename'."""
 
         fullpath = self.__getFullPath(path, filename)
         with open(fullpath, 'w') as f:
-            f.write(text.encode('utf-8'))
+            f.write(text)
 
     def preprocessText(self, text):
         """Returns the list of tokens after preprocessing 'text'."""
