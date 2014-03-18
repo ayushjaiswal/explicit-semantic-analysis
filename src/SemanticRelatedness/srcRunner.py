@@ -11,7 +11,7 @@ class SRC_Runner:
         self.__ESAConceptsInfo = ESAConceptsInfo
         self.__shouldFilterStopWords = Preprocessing.runnerConfig.shouldFilterStopWords
         self.__shouldFilterPunctuation = Preprocessing.runnerConfig.shouldFilterPunctuation
-        self.__tokenType = Preprocessing.runnerConfig.tokenType
+        self.__tokenType = Preprocessing.runnerConfig.inputTokenType
         self.__semanticRelatednessCalculator = SemanticRelatednessCalculatorESA(self.__ESAConceptsInfo, self.__tokenType, self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
 
     def __readFile(self, filePath):

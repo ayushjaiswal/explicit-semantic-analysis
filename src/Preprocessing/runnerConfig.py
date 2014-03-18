@@ -17,3 +17,6 @@ shouldFilterPunctuation = True
 
 #Type of token
 tokenType = Preprocessor.TokenType.lemmatized
+
+#Type of token for input text (which may not be in sentences)
+inputTokenType = Preprocessor.TokenType.raw
