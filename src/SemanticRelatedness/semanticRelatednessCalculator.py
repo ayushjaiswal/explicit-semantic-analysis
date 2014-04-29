@@ -3,17 +3,20 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(".."))
 from Preprocessing.preprocessingTools import Preprocessor
+from ESAModel.tokenFIdfGenerator import TokenFIdfGenerator
 from collections import defaultdict
 import math
+from nltk.corpus import wordnet as wn
 
 class SemanticRelatednessCalculatorESA:
     """Calculates the semantic relatedness of text fragments using the ESA technique."""
 
-    def __init__(self, ESAConceptsInfo, tokenType=Preprocessor.TokenType.raw, shouldFilterStopWords=True, shouldFilterPunctuation=True):
+    def __init__(self, ESAConceptsInfo, tokenType=Preprocessor.TokenType.raw, termType=TokenFIdfGenerator.TermType.term, shouldFilterStopWords=True, shouldFilterPunctuation=True):
         self.__Concepts_TFIDF_InvertedIndex = ESAConceptsInfo.get_TFIDF_InvertedIndex()
         self.__numberOfConcepts = ESAConceptsInfo.getNumberOfConcepts()
         self.__tokenSet = ESAConceptsInfo.getWordSet()
         self.__tokenType = tokenType
+        self.__termType = termType
         self.__shouldFilterPunctuation = shouldFilterPunctuation
         self.__shouldFilterStopWords = shouldFilterStopWords
         self.__tokens1 = []
@@ -70,6 +73,14 @@ class SemanticRelatednessCalculatorESA:
             cosineSimilarity = dotProduct / (vector1_norm * vector2_norm)
             return cosineSimilarity
 
+    def __getSynsetList(self, words):
+        """Returns a list of synsets by expanding each word in words to its synsets."""
+
+        synsetList = []
+        for word in words:
+            synsetList = synsetList + [synset.name for synset in wn.synsets(word)]
+        return synsetList
+
     def getSemanticRelatednessScore(self, text1, text2):
         """Calculates the semantic relatedness of text1 and text2, and returns the final score."""
 
@@ -77,6 +88,9 @@ class SemanticRelatednessCalculatorESA:
         tokens1 = preprocessor1.getTokens(text1, self.__tokenType)
         preprocessor2 = Preprocessor(self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
         tokens2 = preprocessor2.getTokens(text2, self.__tokenType)
+        if self.__termType == TokenFIdfGenerator.TermType.synset:
+            tokens1 = self.__getSynsetList(tokens1)
+            tokens2 = self.__getSynsetList(tokens2)
         
         self.__tokens1 = tokens1
         self.__tokens2 = tokens2

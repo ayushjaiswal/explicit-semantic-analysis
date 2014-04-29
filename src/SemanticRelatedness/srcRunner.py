@@ -2,6 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(".."))
 import Preprocessing.runnerConfig
+import ESAModel.runnerConfig
 from semanticRelatednessCalculator import SemanticRelatednessCalculatorESA
 
 class SRC_Runner:
@@ -12,7 +13,8 @@ class SRC_Runner:
         self.__shouldFilterStopWords = Preprocessing.runnerConfig.shouldFilterStopWords
         self.__shouldFilterPunctuation = Preprocessing.runnerConfig.shouldFilterPunctuation
         self.__tokenType = Preprocessing.runnerConfig.inputTokenType
-        self.__semanticRelatednessCalculator = SemanticRelatednessCalculatorESA(self.__ESAConceptsInfo, self.__tokenType, self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
+        self.__termType = ESAModel.runnerConfig.termType
+        self.__semanticRelatednessCalculator = SemanticRelatednessCalculatorESA(self.__ESAConceptsInfo, self.__tokenType, self.__termType, self.__shouldFilterStopWords, self.__shouldFilterPunctuation)
 
     def __readFile(self, filePath):
         """Reads a text file and returns the text."""
